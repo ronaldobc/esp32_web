@@ -9,12 +9,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastNoAnimationModule } from 'ngx-toastr';
 import { GruposListaComponent } from './grupos-lista/grupos-lista.component';
+import { FirmwareListaComponent } from './firmware-lista/firmware-lista.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProgramasListaComponent,
-    GruposListaComponent
+    GruposListaComponent,
+    FirmwareListaComponent
   ],
   imports: [
     BrowserModule,

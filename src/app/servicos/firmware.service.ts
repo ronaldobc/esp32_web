@@ -17,12 +17,24 @@ export class FirmwareService {
     return this.http.get<Retorno>(this._endpoint + "/" + prog_id);
   }
 
-  criar(firmware: Firmware): Observable<any> {
-    return this.http.put(this._endpoint, firmware);
+  criar(firmware: Firmware, arq?: File): Observable<any> {
+    const formData = new FormData(); 
+    if (arq) {
+      formData.append("arquivo", arq!, arq!.name);
+    }
+    formData.append("firmware", JSON.stringify(firmware));
+
+    return this.http.put(this._endpoint, formData);
   }
 
-  atualizar(firmware: Firmware): Observable<any> {
-    return this.http.patch(this._endpoint + '/' + firmware.firm_id, firmware);
+  atualizar(firmware: Firmware, arq?: File): Observable<any> {
+    const formData = new FormData(); 
+    if (arq) {
+      formData.append("arquivo", arq!, arq!.name);
+    }
+    formData.append("firmware", JSON.stringify(firmware));
+
+    return this.http.patch(this._endpoint + '/' + firmware.firm_id, formData);
   }
 
   excluir(firmware: Firmware): Observable<any> {
@@ -30,4 +42,5 @@ export class FirmwareService {
       body: { confirmado: 'S' },
     });
   }
+
 }
