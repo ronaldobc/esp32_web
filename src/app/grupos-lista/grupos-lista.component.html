@@ -1,0 +1,144 @@
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+>
+  <h1 class="h2">Grupos de Dispositivos</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="me-2">
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-primary"
+        (click)="novo(GrupoCad)"
+      >
+        Novo
+      </button>
+      <!--data-toggle="modal" data-target="#ProgramaCad"-->
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="mb-3">
+            <label for="programa_filtro" class="form-label">Programa</label>
+            <select id="programa_filtro" name="programa_filtro" #programaObj class="form-select" (click)="trocarPrograma(programaObj.value)">
+                <option *ngFor="let prog of programas" value="{{prog.prog_id}}">{{prog.prog_nome}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-sm" *ngIf="grupos.length > 0">
+    <thead>
+      <tr>
+        <th scope="col" style="max-width: 60px">#</th>
+        <th scope="col" style="max-width: 400px">Nome</th>
+        <th scope="col" style="max-width: 400px">Programa</th>
+        <th scope="col" style="max-width: 400px">Firmware</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let grupo of grupos">
+        <td>{{ grupo.gru_id }}</td>
+        <td>{{ grupo.gru_nome }}</td>
+        <td>{{ grupo.prog_nome }}</td>
+        <td>{{ grupo.firm_nome }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-success me-1"
+            (click)="editar(GrupoCad, grupo)"
+          >
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            (click)="confirmaExcluir(ConfirmaDel, grupo)"
+          >
+            <i class="bi bi-trash3"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="grupos.length <= 0">
+    <h5>Nenhum grupo de dispositivo encontrado</h5>
+  </div>
+</div>
+
+<ng-template #GrupoCad let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">Cadastro de Grupo</h5>
+  </div>
+  <form [formGroup]="frmGrupo" (ngSubmit)="salvar()">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="nome">Nome do Grupo</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nome"
+          name="nome"
+          formControlName="nome"
+        />
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="programa" class="form-label">Programa</label>
+        <select id="programa" name="programa" class="form-select" formControlName="programa" >
+            <option *ngFor="let prog of programas" value="{{prog.prog_id}}">{{prog.prog_nome}}</option>
+        </select>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="firmware" class="form-label">Firmware atual</label>
+        <select id="firmware" name="firmware" class="form-select" formControlName="firmware" >
+            <option *ngFor="let firm of firmwares" value="{{firm.firm_id}}">{{firm.firm_nome}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-dismiss="modal"
+        (click)="modal.close()"
+      >
+        Fechar
+      </button>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #ConfirmaDel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Excluir Grupo</h4>
+  </div>
+  <div class="modal-body">
+    <p>
+      <strong>Confirma a exclusão do grupo de dispositivos?</strong>
+    </p>
+    <p>
+      <span class="text-danger"
+        >Todos os dispositivos deste grupo serão apagados.</span
+      ><br />
+      <span class="text-danger">Esta operação não pode ser desfeita.</span>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      ngbAutofocus
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel click')"
+    >
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-danger" (click)="excluir()">
+      Excluir
+    </button>
+  </div>
+</ng-template>
