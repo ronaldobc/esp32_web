@@ -68,7 +68,10 @@ export class GruposListaComponent implements OnInit {
           }
         });
       },
-      (erro) => console.log(erro)
+      (erro) => {
+        console.log(erro);
+        this.toastr.error(erro.message);
+      }
     );
   }
 

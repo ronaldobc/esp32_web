@@ -111,7 +111,7 @@ export class FirmwareListaComponent implements OnInit {
         },
         (erro) => {
           console.log(erro);
-          this.toastr.error(erro);
+          this.toastr.error(erro.message);
         }
       );
     } else {
@@ -132,7 +132,7 @@ export class FirmwareListaComponent implements OnInit {
         },
         (erro) => {
           console.log(erro);
-          this.toastr.error(erro);
+          this.toastr.error(erro.message);
         }
       );
     }

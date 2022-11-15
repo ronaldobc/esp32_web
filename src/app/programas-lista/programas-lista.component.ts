@@ -42,7 +42,10 @@ export class ProgramasListaComponent implements OnInit {
           this.toastr.error(ret.erro);
         }
       },
-      (erro) => console.log(erro)
+      (erro) => {
+        console.log(erro);
+        this.toastr.error(erro.message);
+      }
     );
   }
 
