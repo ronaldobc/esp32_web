@@ -10,13 +10,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastNoAnimationModule } from 'ngx-toastr';
 import { GruposListaComponent } from './grupos-lista/grupos-lista.component';
 import { FirmwareListaComponent } from './firmware-lista/firmware-lista.component';
+import { DispositivoListaComponent } from './disp-lista/disp-lista.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProgramasListaComponent,
     GruposListaComponent,
-    FirmwareListaComponent
+    FirmwareListaComponent,
+    DispositivoListaComponent
   ],
   imports: [
     BrowserModule,

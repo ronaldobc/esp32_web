@@ -1,0 +1,137 @@
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+>
+  <h1 class="h2">Dispositivos</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="me-2">
+      &nbsp;
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="mb-3">
+            <label for="grupo_filtro" class="form-label">Programa/Grupo</label>
+            <select id="grupo_filtro" name="grupo_filtro" #grupoObj class="form-select" (click)="trocarGrupo(grupoObj.value)">
+                <option *ngFor="let grupo of grupos" value="{{grupo.gru_id}}">{{grupo.prog_nome}} - {{grupo.gru_nome}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-sm" *ngIf="dispositivos.length > 0">
+    <thead>
+      <tr>
+        <th scope="col" style="max-width: 400px">Serial#</th>
+        <th scope="col" style="max-width: 400px">Programa</th>
+        <th scope="col" style="max-width: 400px">Grupo</th>
+        <th scope="col" style="max-width: 400px">Status</th>
+        <th scope="col" style="max-width: 400px">Versão</th>
+        <th scope="col" style="max-width: 400px">Ping</th>
+        <th scope="col" style="max-width: 400px">Atualizado</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let disp of dispositivos">
+        <td>{{ disp.disp_chip }}</td>
+        <td>{{ disp.prog_nome }}</td>
+        <td>{{ disp.gru_nome }}</td>
+        <td>{{ traduzStatus(disp.disp_status) }}</td>
+        <td>{{ disp.disp_versao }}</td>
+        <td>{{ disp.disp_ping | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td>{{ disp.disp_update | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-success me-1"
+            (click)="editar(DispositivoCad, disp)"
+          >
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            (click)="confirmaExcluir(ConfirmaDel, disp)"
+          >
+            <i class="bi bi-trash3"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="dispositivos.length <= 0">
+    <h5>Nenhum dispositivo encontrado</h5>
+  </div>
+</div>
+
+<ng-template #DispositivoCad let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">Cadastro de Dispositivo</h5>
+  </div>
+  <form [formGroup]="frmDisp" (ngSubmit)="salvar()">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="nome">Serial do Dispositivo</label>
+        <input type="text" class="form-control" disabled value="{{editando!.disp_chip}}"/>
+      </div>
+      <br>
+      <div class="form-group">
+        <div class="btn-group" role="group">
+          <input type="radio" class="btn-check" value="N" name="status" id="statusN" formControlName="status" autocomplete="off">
+          <label class="btn btn-outline-primary" for="statusN">Novo</label>
+        
+          <input type="radio" class="btn-check" value="A" name="status" id="statusA" formControlName="status" autocomplete="off">
+          <label class="btn btn-outline-success" for="statusA">Ativo</label>
+        
+          <input type="radio" class="btn-check" value="B" name="status" id="statusB" formControlName="status" autocomplete="off">
+          <label class="btn btn-outline-danger" for="statusB">Bloqueado</label>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="grupo" class="form-label">Programa/Grupo</label>
+        <select id="grupo" name="grupo" class="form-select" formControlName="grupo" >
+            <option *ngFor="let grupo of gruposEditar" value="{{grupo.gru_id}}">{{grupo.prog_nome}} - {{grupo.gru_nome}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-dismiss="modal"
+        (click)="modal.close()"
+      >
+        Fechar
+      </button>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #ConfirmaDel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Excluir Dispositivo</h4>
+  </div>
+  <div class="modal-body">
+    <p>
+      <strong>Confirma a exclusão do dispositivo?</strong>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      ngbAutofocus
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel click')"
+    >
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-danger" (click)="excluir()">
+      Excluir
+    </button>
+  </div>
+</ng-template>
